@@ -1,0 +1,53 @@
+﻿# Visual Studio cache
+.vs/
+
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.DotSettings.user
+
+# ASP.NET generic files
+appsettings*.Local.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Azure
+*.publishsettings
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# NuGet
+*.nupkg
+packages/
+
+# Entity Framework
+Migrations/
+
+# SQL localdb
+*.mdf
+*.ldf
+
+# VSCode
+.vscode/
+
+# Others
+*.db
+*.bak
+*.swp
