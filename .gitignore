@@ -51,3 +51,7 @@ Migrations/
 *.db
 *.bak
 *.swp
+
+# appsettings
+appsettings.Development.json
+appsettings*.Local.json
