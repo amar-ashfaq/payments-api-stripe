@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Payments;
 using Stripe;
 
@@ -13,6 +14,10 @@ builder.Services.AddOpenApi();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+// configure AppDbContext
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
