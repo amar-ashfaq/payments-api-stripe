@@ -8,9 +8,25 @@ namespace Payments.Controllers
     [ApiController]
     public class CheckoutController : ControllerBase
     {
-        [HttpPost]
-        public ActionResult CreateCheckoutSession([FromBody] CheckoutFormEntity checkoutEntity)
+        private readonly AppDbContext _dbContext;
+
+        public CheckoutController(AppDbContext dbContext)
         {
+            _dbContext = dbContext;
+        }
+
+        [HttpPost("create-checkout-session")]
+        public async Task<IActionResult> CreateCheckoutSession([FromBody] CheckoutFormEntity checkoutEntity)
+        {
+            var payment = new Payment
+            {
+                PaymentStatus = PaymentStatus.Pending,
+                Amount = 2500
+            };
+
+            _dbContext.Payments.Add(payment);
+            await _dbContext.SaveChangesAsync();
+
             var options = new SessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>
@@ -24,7 +40,14 @@ namespace Payments.Controllers
 
                 Mode = "payment",
                 SuccessUrl = $"{Request.Scheme}://{Request.Host}/checkout/success",
-                CancelUrl = $"{Request.Scheme}://{Request.Host}/checkout/cancel"
+                CancelUrl = $"{Request.Scheme}://{Request.Host}/checkout/cancel",
+
+                ClientReferenceId = payment.Id.ToString(),
+
+                Metadata =
+                {
+                    ["paymentId"] = payment.Id.ToString()
+                }
             };
 
             var service = new SessionService();
